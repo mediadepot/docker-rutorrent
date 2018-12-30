@@ -19,6 +19,7 @@ protocol.pex.set = yes
 encoding_list = UTF-8
 # system.umask.set = 022
 session.path.set = /config/rtorrent/rtorrent_sess
+directory.default.set = /processing/
 
 
 # Network parameters

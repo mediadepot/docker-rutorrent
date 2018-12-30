@@ -10,12 +10,25 @@ mkdir -p \
     /processing \
 	/run/php
 
+# configure ruTorrent
 cd /defaults/rutorrent-conf || exit
 shopt -s globstar nullglob
 for i in *
 do
 	[[ ! -e "/config/rutorrent/settings/${i}" ]] && cp -v "${i}" "/config/rutorrent/settings/${i}"
 done
+
+# Configure ruTorrent plugins
+cd /defaults/rutorrent-profiles || exit
+shopt -s globstar nullglob
+for i in *
+do
+	[[ ! -e "/config/rutorrent/profiles/settings/${i}" ]] && cp -v "${i}" "/config/rutorrent/profiles/settings/${i}"
+done
+
+# tell autotools to check for new torrents every minute.
+sed -i 's/$autowatch_interval = 300;/$autowatch_interval = 60;/' /app/rutorrent/plugins/autotools/conf.php
+
 
 # rtorrent configuration
 [[ ! -e /config/rtorrent/rtorrent.rc ]] && \
