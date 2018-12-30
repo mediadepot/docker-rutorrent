@@ -4,9 +4,12 @@
 mkdir -p \
 	/config{/log/rtorrent,/log/rutorrent,/rtorrent/rtorrent_sess,/rutorrent/settings/users} \
 	/config/rutorrent/profiles{/settings,/torrents,/users,/tmp} \
-	/downloads{/completed,/incoming,/watched} \
+	/downloads \
+	/blackhole \
+    /processing \
 	/run/php
 
+# configure ruTorrent
 cd /defaults/rutorrent-conf || exit
 shopt -s globstar nullglob
 for i in *
@@ -14,6 +17,19 @@ do
 	[[ ! -e "/config/rutorrent/settings/${i}" ]] && cp -v "${i}" "/config/rutorrent/settings/${i}"
 done
 
+# Configure ruTorrent plugins
+cd /defaults/rutorrent-profiles || exit
+shopt -s globstar nullglob
+for i in *
+do
+	[[ ! -e "/config/rutorrent/profiles/settings/${i}" ]] && cp -v "${i}" "/config/rutorrent/profiles/settings/${i}"
+done
+
+# tell autotools to check for new torrents every minute.
+sed -i 's/$autowatch_interval = 300;/$autowatch_interval = 60;/' /app/rutorrent/plugins/autotools/conf.php
+
+
+# rtorrent configuration
 [[ ! -e /config/rtorrent/rtorrent.rc ]] && \
 	cp /defaults/rtorrent.rc /config/rtorrent/rtorrent.rc
 cp -pr /config/rutorrent/settings/* /app/rutorrent/conf/
@@ -29,9 +45,11 @@ ln -s /config/themes /app/rutorrent/plugins/theme/themes
 	rm /config/rtorrent/rtorrent_sess/rtorrent.lock
 
 # permissions
-chown abc:abc \
+chown -R abc:abc \
 	/downloads \
-	/downloads{/completed,/incoming,/watched}
+	/blackhole \
+	/processing
+
 
 chown -R abc:abc \
 	/config \
