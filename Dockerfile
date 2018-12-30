@@ -52,7 +52,10 @@ RUN \
  echo "**** cleanup ****" && \
  rm -rf \
 	/etc/nginx/conf.d/default.conf \
-	/tmp/*
+	/tmp/* && \
+ curl -o /tmp/themes.tar.gz -L https://github.com/artyuum/ruTorrent-Themes/archive/master.tar.gz && \
+ tar xf /tmp/themes.tar.gz -C /app/rutorrent/plugins/theme/themes --strip-components=1 && \
+ rm -rf /tmp/*
 
 # add local files
 COPY root/ /
