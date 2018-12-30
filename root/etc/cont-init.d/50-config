@@ -4,7 +4,6 @@
 mkdir -p \
 	/config{/log/rtorrent,/log/rutorrent,/rtorrent/rtorrent_sess,/rutorrent/settings/users} \
 	/config/rutorrent/profiles{/settings,/torrents,/users,/tmp} \
-	/config/loaded \
 	/downloads \
 	/blackhole \
     /processing \
