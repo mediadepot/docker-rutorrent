@@ -46,7 +46,7 @@ ln -s /config/themes /app/rutorrent/plugins/theme/themes
 	rm /config/rtorrent/rtorrent_sess/rtorrent.lock
 
 # permissions
-chown abc:abc \
+chown -R abc:abc \
 	/downloads \
 	/blackhole \
 	/processing
